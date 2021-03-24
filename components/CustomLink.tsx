@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import { VFC } from 'react'
 
-export default function CustomLink({ as, href, ...otherProps }) {
+const CustomLink: VFC<any> = ({ as, href, ...otherProps }) => {
   return (
     <>
       <Link as={as} href={href}>
@@ -14,3 +15,5 @@ export default function CustomLink({ as, href, ...otherProps }) {
     </>
   )
 }
+
+export default CustomLink

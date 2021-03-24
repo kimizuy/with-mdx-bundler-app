@@ -1,4 +1,6 @@
-export default function Layout({ children }) {
+import { ReactNode, VFC } from 'react'
+
+const Layout: VFC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <div className="wrapper">{children}</div>
@@ -47,3 +49,5 @@ export default function Layout({ children }) {
     </>
   )
 }
+
+export default Layout
