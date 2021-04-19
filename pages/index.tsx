@@ -22,16 +22,17 @@ export default function Index({ posts }: Props) {
         <code>mdx-bundler</code>.
       </p>
       <ul>
-        {posts.map((post) => (
-          <li key={post.filePath}>
-            <Link
-              as={`/posts/${post.filePath.replace(/\.mdx?$/, '')}`}
-              href={`/posts/[slug]`}
-            >
-              <a>{post.frontMatter.title}</a>
-            </Link>
-          </li>
-        ))}
+        {posts.map((post) => {
+          const slug = post.filePath.replace(/\.mdx?$/, '')
+
+          return (
+            <li key={post.filePath}>
+              <Link as={`/posts/${slug}`} href={`/posts/[slug]`}>
+                <a>{post.frontMatter.title}</a>
+              </Link>
+            </li>
+          )
+        })}
       </ul>
     </Layout>
   )
@@ -40,6 +41,7 @@ export default function Index({ posts }: Props) {
 export const getStaticProps: GetStaticProps = async () => {
   const posts = postFilePaths.map((filePath) => {
     const source = fs.readFileSync(path.join(POSTS_PATH, filePath))
+    console.log(source)
     const { data } = matter(source)
 
     return {

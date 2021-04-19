@@ -17,8 +17,7 @@ type Props = {
 }
 
 const components = {
-  a: CustomLink,
-  Head
+  a: CustomLink
 }
 
 export default function PostPage({ code, frontMatter }: Props) {
@@ -40,7 +39,7 @@ export default function PostPage({ code, frontMatter }: Props) {
         )}
       </div>
       <main>
-        <Component components={components} />
+        <Component components={{ a: CustomLink }} />
       </main>
 
       <style jsx>{`
