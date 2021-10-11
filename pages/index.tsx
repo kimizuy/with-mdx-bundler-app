@@ -1,5 +1,5 @@
 import fs from 'fs'
-import matter from 'gray-matter'
+import { bundleMDX } from 'mdx-bundler'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import path from 'path'
@@ -8,7 +8,7 @@ import { postFilePaths, POSTS_PATH } from '../utils/mdxUtils'
 
 type Props = {
   posts: {
-    frontMatter: { title: string; description?: string }
+    frontmatter: { title: string; description?: string }
     filePath: string
   }[]
 }
@@ -28,7 +28,7 @@ export default function Index({ posts }: Props) {
           return (
             <li key={post.filePath}>
               <Link as={`/posts/${slug}`} href={`/posts/[slug]`}>
-                <a>{post.frontMatter.title}</a>
+                <a>{post.frontmatter.title}</a>
               </Link>
             </li>
           )
@@ -39,15 +39,16 @@ export default function Index({ posts }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = postFilePaths.map((filePath) => {
-    const source = fs.readFileSync(path.join(POSTS_PATH, filePath))
-    const { data } = matter(source)
-
-    return {
-      frontMatter: data,
-      filePath
-    }
-  })
+  const posts = await Promise.all(
+    postFilePaths.map(async (filePath) => {
+      const source = fs.readFileSync(path.join(POSTS_PATH, filePath), 'utf-8')
+      const { frontmatter } = await bundleMDX(source)
+      return {
+        frontmatter,
+        filePath
+      }
+    })
+  )
 
   return { props: { posts } }
 }
