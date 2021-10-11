@@ -41,7 +41,6 @@ export default function Index({ posts }: Props) {
 export const getStaticProps: GetStaticProps = async () => {
   const posts = postFilePaths.map((filePath) => {
     const source = fs.readFileSync(path.join(POSTS_PATH, filePath))
-    console.log(source)
     const { data } = matter(source)
 
     return {
