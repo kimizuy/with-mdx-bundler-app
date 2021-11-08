@@ -1,11 +1,15 @@
-import Link from 'next/link'
-import { VFC } from 'react'
+import Link from "next/link"
+import { ComponentPropsWithoutRef } from "react"
 
-const CustomLink: VFC<any> = ({ as, href, ...otherProps }) => {
+type Props = ComponentPropsWithoutRef<"a">
+
+const CustomLink = ({ href, ...props }: Props) => {
+  if (!href) return <a {...props} />
+
   return (
     <>
-      <Link as={as} href={href}>
-        <a {...otherProps} />
+      <Link href={href}>
+        <a {...props} />
       </Link>
       <style jsx>{`
         a {

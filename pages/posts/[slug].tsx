@@ -15,7 +15,7 @@ type Props = {
 }
 
 const components = {
-  a: CustomLink
+  a: CustomLink,
 }
 
 export default function PostPage({ code, frontmatter }: Props) {
@@ -37,7 +37,7 @@ export default function PostPage({ code, frontmatter }: Props) {
         )}
       </div>
       <main>
-        <Component components={{ a: CustomLink }} />
+        <Component components={components} />
       </main>
 
       <style jsx>{`
@@ -64,8 +64,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       code,
-      frontmatter
-    }
+      frontmatter,
+    },
   }
 }
 
@@ -76,6 +76,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }
