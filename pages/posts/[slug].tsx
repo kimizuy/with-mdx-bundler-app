@@ -4,6 +4,7 @@ import { getMDXComponent } from 'mdx-bundler/client'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
 import path from 'path'
+import { useMemo } from 'react'
 import CustomLink from '../../components/CustomLink'
 import Layout from '../../components/Layout'
 import { postFilePaths, POSTS_PATH } from '../../utils/mdxUtils'
@@ -13,8 +14,12 @@ type Props = {
   frontmatter: { title: string; description?: string }
 }
 
+const components = {
+  a: CustomLink
+}
+
 export default function PostPage({ code, frontmatter }: Props) {
-  const Component = getMDXComponent(code)
+  const Component = useMemo(() => getMDXComponent(code), [code])
 
   return (
     <Layout>
@@ -59,8 +64,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       code,
-      frontmatter,
-    },
+      frontmatter
+    }
   }
 }
 
@@ -71,6 +76,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: false
   }
 }
